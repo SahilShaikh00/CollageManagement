@@ -1,120 +1,223 @@
-body {
-  background-color: #e9e5de;
-  margin: 0;
-  font-family: Arial, sans-serif;
+        body {
+        background-color: #e9e5de;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        }
+
+        .container {
+        display: flex;
+        justify-content: center;
+        padding-top: 40px;
+        }
+
+        .box {
+        display: flex;
+        width: 1100px;
+        height: 600px;
+        background-color: #fff;
+        border-radius: 42px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .slideImage {
+        width: 50%;
+        }
+
+        .slideImage img {
+        width: 100%;
+        height: 98%;
+        padding: 3px;
+        border-radius: 42px;
+        object-fit: cover;
+        }
+
+        .formSection {
+        width: 50%;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-top: -88px;
+        }
+
+        .logo img {
+        height: 80px;
+        width: 80px;
+        }
+
+        h2 {
+        margin: 20px 0;
+        font-weight: bold;
+        font-size: 24px;
+        color: #333;
+        }
+
+        form {
+        width: 100%;
+        max-width: 300px;
+        }
+
+        .inputGroup {
+        position: relative;
+        margin-bottom: 20px;
+        }
+
+        .inputGroup i {
+        position: absolute;
+        top: 12px;
+        color: #000;
+        font-size: 16px;
+        }
+
+        /* Left side lock/user/email icon */
+        .inputGroup .fa-lock,
+        .inputGroup .fa-user,
+        .inputGroup .fa-envelope {
+        left: 10px;
+        }
+
+        /* Right side eye icon */
+        #togglePassword {
+        right: -60px;
+        position: absolute;
+        top: 12px;
+        color: #333;
+        font-size: 16px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        }
+
+        #togglePassword:hover {
+        color: #007bff;
+        }
+
+        .inputGroup input {
+        width: 100%;
+        padding: 12px 40px 12px 35px; /* Space for both sides */
+        border: 1px solid #ccc;
+        border-radius: 25px;
+        font-size: 14px;
+        outline: none;
+        }
+
+        button {
+        width: 100%;
+        padding: 12px;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 25px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s ease;
+        margin-left: 25px;
+        margin-top: 12px;
+        }
+
+        .fgPasssword {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 5px;
+    margin-left: 13px;
+    font-size: 0.9rem;
+    }
+
+    .fgPasssword .fg-link {
+    text-decoration: none;
+    color: #555;
+    transition: color 0.3s ease;
+    gap: 10px;
+    }
+
+    .fgPasssword .fg-link:hover {
+    color: #007BFF;
+    text-decoration: underline;
+    }
+
+
+        button:hover {
+        background-color: #555;
+        }
+
+        /* Responsive for tablets and below */
+@media (max-width: 991px) {
+  .box {
+    flex-direction: column;
+    width: 90%;
+    height: auto;
+    border-radius: 20px;
+  }
+
+  .slideImage,
+  .formSection {
+    width: 100%;
+  }
+
+  .slideImage img {
+    height: 250px;
+    border-radius: 20px 20px 0 0;
+  }
+
+  .formSection {
+    margin-top: 0;
+    padding: 20px;
+  }
+
+  form {
+    max-width: 100%;
+  }
+
+  #togglePassword {
+    right: 20px;
+  }
+
+  button {
+    margin-left: 0;
+  }
+
+  .fgPasssword {
+    margin-left: 0;
+    padding: 0;
+  }
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  padding-top: 40px;
-}
+/* Extra small devices (phones) */
+@media (max-width: 576px) {
+  h2 {
+    font-size: 20px;
+    text-align: center;
+  }
 
-.box {
-  display: flex;
-  width: 1100px;
-  height: 600px;
-  background-color: #fff;
-  border-radius: 42px;
-  overflow: hidden;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-}
+  .logo img {
+    height: 60px;
+    width: 60px;
+  }
 
-.slideImage {
-  width: 50%;
-}
+  .inputGroup input {
+    font-size: 13px;
+    padding: 10px 35px 10px 30px;
+  }
 
-.slideImage img {
-  width: 100%;
-  height: 98%;
-  padding: 3px;
-  border-radius: 42px;
-  object-fit: cover;
-}
+  .inputGroup i {
+    font-size: 14px;
+    top: 10px;
+  }
 
-.formSection {
-  width: 50%;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: -88px;
-}
+  #togglePassword {
+    font-size: 14px;
+    top: 10px;
+    right: 20px;
+  }
 
-.logo img {
-  height: 80px;
-  width: 80px;
-}
+  button {
+    font-size: 14px;
+    padding: 10px;
+  }
 
-h2 {
-  margin: 20px 0;
-  font-weight: bold;
-  font-size: 24px;
-  color: #333;
-}
-
-form {
-  width: 100%;
-  max-width: 300px;
-}
-
-.inputGroup {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-.inputGroup i {
-  position: absolute;
-  top: 12px;
-  color: #000;
-  font-size: 16px;
-}
-
-/* Left side lock/user/email icon */
-.inputGroup .fa-lock,
-.inputGroup .fa-user,
-.inputGroup .fa-envelope {
-  left: 10px;
-}
-
-/* Right side eye icon */
-#togglePassword {
-  right: -60px;
-  position: absolute;
-  top: 12px;
-  color: #333;
-  font-size: 16px;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-#togglePassword:hover {
-  color: #007bff;
-}
-
-.inputGroup input {
-  width: 100%;
-  padding: 12px 40px 12px 35px; /* Space for both sides */
-  border: 1px solid #ccc;
-  border-radius: 25px;
-  font-size: 14px;
-  outline: none;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  margin-left: 25px;
-}
-
-button:hover {
-  background-color: #555;
+  .fgPasssword {
+    font-size: 0.8rem;
+  }
 }
