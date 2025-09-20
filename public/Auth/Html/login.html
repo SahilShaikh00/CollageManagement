@@ -3,30 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>User Sign Up</title>
-  <link rel="stylesheet" href="../Css/login.css"/>
+  <title>EduManage Pro | College Management System</title>
+  <link rel="stylesheet" href="../Css/login.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
 </head>
 <body>
+  <!-- Floating particles for background effect -->
+  <div class="particles" id="particles"></div>
+
   <div class="container">
     <div class="box">
       <div class="slideImage">
-        <img src="../../Asset/college-campus.jpg" alt="Campus Image"/>
+        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="College Campus"/>
+        <div class="image-overlay">
+          <h2>Welcome to EduManage Pro</h2>
+          <p>Streamline your college operations with our comprehensive management system. Access student records, course materials, and administrative tools all in one place.</p>
+        </div>
       </div>
 
-      <div class="formSection">
+      <div class="formSection login-form active">
         <div class="logo">
-          <img src="../../Asset/vector-graphic-gold-graduation-hat-academic-college-university-high-school-with-laurel-wreath_771881-231.avif" alt="Hat Logo"/>
+          <img src="https://cdn-icons-png.flaticon.com/512/3714/3714885.png" alt="College Logo"/>
         </div>
-        <h2>Collage Managent Login</h2>
+        <h2>College Management Login</h2>
 
-        <form>
-          <!-- <div class="inputGroup">
-            <i class="fas fa-user"></i>
-            <input type="text" placeholder="Full Name" required/>
-          </div> -->
-
+        <form id="loginForm">
           <div class="inputGroup">
             <i class="fas fa-envelope"></i>
             <input type="email" placeholder="Email" required/>
@@ -35,18 +36,70 @@
           <div class="inputGroup">
             <i class="fas fa-lock"></i>
             <input id="passwordInput" type="password" placeholder="Password" required/>
-              <i class="fas fa-eye" id="togglePassword"  style="cursor: pointer;"></i>
+            <i class="fas fa-eye" id="togglePassword"></i>
           </div>
-         <div class="fgPasssword">
-  <a href="#" class="fg-link">Forget Password?</a>
-  <a href="#" class="fg-link">Sign In</a>
-</div>
+          
+          <div class="fgPasssword">
+            <a href="#" class="fg-link">Forgot Password?</a>
+            <a href="#" class="switch-form" data-form="signup">Create Account</a>
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+
+        <div class="social-login">
+          <p>Or login with</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-google"></i></a>
+            <a href="#"><i class="fab fa-microsoft"></i></a>
+            <a href="#"><i class="fab fa-apple"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="formSection signup-form">
+        <div class="logo">
+          <img src="https://cdn-icons-png.flaticon.com/512/3714/3714885.png" alt="College Logo"/>
+        </div>
+        <h2>Create Your Account</h2>
+
+        <form id="signupForm">
+          <!-- <div class="inputGroup">
+            <i class="fas fa-user"></i>
+            <input type="text" placeholder="Full Name" required/>
+          </div> -->
+
+          <div class="inputGroup">
+            <i class="fas fa-envelope"></i>
+            <input type="text" placeholder="Email" required/>
+          </div>
+
+          <div class="inputGroup">
+            <i class="fas fa-lock"></i>
+            <input id="signupPasswordInput" type="password" placeholder="Password" required/>
+            <i class="fas fa-eye" id="toggleSignupPassword"></i>
+          </div>
+          
+          <div class="fgPasssword">
+            <a href="#" class="switch-form" data-form="login">Already have an account? Login</a>
+          </div>
 
           <button type="submit">Sign Up</button>
         </form>
+
+        <div class="social-login">
+          <p>Or sign up with</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-google"></i></a>
+            <a href="#"><i class="fab fa-microsoft"></i></a>
+            <a href="#"><i class="fab fa-apple"></i></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-    <script src="../Script/login.js"></script>
+
+  <!-- Move the script to the end of body -->
+  <script src="../Script/login.js"></script>
 </body>
 </html>
