@@ -450,3 +450,462 @@
         width: 70px;
       }
     }
+
+    /* Existing CSS remains the same until the media queries */
+
+/* Responsive for tablets and below */
+@media (max-width: 991px) {
+  .box {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .slideImage,
+  .formSection {
+    width: 100%;
+  }
+
+  .slideImage {
+    height: 280px;
+  }
+
+  .formSection {
+    padding: 40px 30px;
+  }
+
+  .image-overlay {
+    padding: 25px;
+  }
+
+  .image-overlay h2 {
+    font-size: 28px;
+  }
+}
+
+/* Medium devices (tablets in portrait) */
+@media (max-width: 768px) {
+  .image-overlay {
+    padding: 20px;
+  }
+  
+  .image-overlay h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+  }
+  
+  .image-overlay p {
+    font-size: 15px;
+    max-width: 100%;
+  }
+  
+  .formSection {
+    padding: 30px 25px;
+  }
+  
+  h2 {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+  
+  .logo img {
+    height: 80px;
+    width: 80px;
+  }
+}
+
+/* Small devices (phones in landscape) */
+@media (max-width: 576px) {
+  body {
+    padding: 10px;
+  }
+  
+  .box {
+    border-radius: 16px;
+  }
+  
+  .slideImage {
+    height: 220px;
+  }
+  
+  .formSection {
+    padding: 25px 20px;
+  }
+  
+  .image-overlay {
+    padding: 15px;
+    justify-content: center;
+  }
+  
+  .image-overlay h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  
+  .image-overlay p {
+    display: none; /* Hide description on very small screens */
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .logo {
+    margin-bottom: 20px;
+  }
+  
+  .logo img {
+    height: 70px;
+    width: 70px;
+  }
+  
+  form {
+    max-width: 100%;
+  }
+  
+  .inputGroup {
+    margin-bottom: 20px;
+  }
+  
+  .inputGroup input {
+    padding: 14px 45px 14px 45px;
+    font-size: 15px;
+  }
+  
+  .inputGroup i {
+    font-size: 16px;
+  }
+  
+  .inputGroup .fa-user,
+  .inputGroup .fa-envelope,
+  .inputGroup .fa-lock {
+    left: 18px;
+  }
+  
+  .inputGroup .fa-eye,
+  .inputGroup .fa-eye-slash {
+    right: 18px;
+  }
+  
+  .fgPasssword {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin: 15px 0 25px;
+  }
+  
+  .fgPasssword a {
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 16px;
+    font-size: 16px;
+  }
+  
+  .social-login {
+    margin-top: 25px;
+  }
+  
+  .social-login p {
+    font-size: 14px;
+  }
+  
+  .social-login p::before,
+  .social-login p::after {
+    width: 60px;
+  }
+  
+  .social-icons a {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+
+/* forgetpassword */
+
+/* Forgot Password Styles */
+.forgot-step {
+  display: none;
+  margin-left: 80px;
+  width: 100%;
+}
+
+.forgot-step.active {
+  display: block;
+  animation: fadeIn 0.5s ease;
+}
+
+.forgot-instruction {
+  margin-left: 0px;
+  margin-bottom: 25px;
+  color: var(--gray);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.otp-input {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  font-size: 18px;
+  border: 2px solid #eaeaea;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.otp-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 5px 15px rgba(26, 42, 108, 0.1);
+}
+
+.resend-otp {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.resend-otp a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.resend-otp a:hover {
+  text-decoration: underline;
+}
+
+.timer {
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.password-strength {
+  margin-top: 8px;
+  height: 6px;
+  border-radius: 3px;
+  background: #eee;
+  position: relative;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  width: 0;
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.password-strength-text {
+  font-size: 12px;
+  margin-top: 5px;
+  text-align: right;
+  color: var(--gray);
+}
+
+.password-match {
+  font-size: 14px;
+  margin: -15px 0 20px 20px;
+  height: 20px;
+}
+
+.success-message {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.success-message i {
+  font-size: 60px;
+  color: var(--success);
+  margin-bottom: 20px;
+  display: block;
+}
+
+.success-message h3 {
+  color: var(--success);
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.success-message p {
+  color: var(--gray);
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments for forgot password */
+@media (max-width: 576px) {
+  .otp-input {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+  
+  .forgot-instruction {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 400px) {
+  .otp-input {
+    width: 35px;
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
+/* .............. */
+
+
+/* Extra small devices (phones in portrait) */
+@media (max-width: 400px) {
+  .slideImage {
+    height: 180px;
+  }
+  
+  .formSection {
+    padding: 20px 15px;
+  }
+  
+  h2 {
+    font-size: 22px;
+  }
+  
+  .logo img {
+    height: 60px;
+    width: 60px;
+  }
+  
+  .inputGroup input {
+    padding: 12px 40px 12px 40px;
+  }
+  
+  .inputGroup i {
+    font-size: 15px;
+  }
+  
+  .inputGroup .fa-user,
+  .inputGroup .fa-envelope,
+  .inputGroup .fa-lock {
+    left: 15px;
+  }
+  
+  .inputGroup .fa-eye,
+  .inputGroup .fa-eye-slash {
+    right: 15px;
+  }
+  
+  button {
+    padding: 14px;
+  }
+}
+
+
+.step-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.step {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #eaeaea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 5px;
+    font-weight: 600;
+    color: var(--gray);
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.step.active {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(26, 42, 108, 0.3);
+}
+
+.step.completed {
+    background: var(--success);
+    color: white;
+}
+
+.step-line {
+    height: 3px;
+    width: 60px;
+    background: #eaeaea;
+    margin: 0 -5px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.step-line.active {
+    background: linear-gradient(to right, var(--primary), var(--secondary));
+}
+
+.step-line.completed {
+    background: var(--success);
+}
+
+/* Add step labels if needed */
+.step-label {
+    position: absolute;
+    top: 40px;
+    font-size: 12px;
+    color: var(--gray);
+    white-space: nowrap;
+    transform: translateX(-50%);
+    left: 50%;
+}
+
+.step.active .step-label {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Responsive styles */
+@media (max-width: 576px) {
+    .step {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    
+    .step-line {
+        width: 40px;
+    }
+    
+    .step-label {
+        font-size: 10px;
+        top: 35px;
+    }
+}
+
+@media (max-width: 400px) {
+    .step {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+    }
+    
+    .step-line {
+        width: 30px;
+        height: 2px;
+    }
+}

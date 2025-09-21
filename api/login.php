@@ -74,8 +74,35 @@ if($action === "signUp"){
         echo json_encode(["success" => false, "message" => "Signup failed: " . $conn->error]);
     }
 
-} else {
-    echo json_encode(["success" => false, "message" => "Invalid action"]);
+} elseif ($action === "login") {
+    
+    if(!isset($data['email']) || !isset($data['password'])){
+        echo json_encode(["success" => false , "message" => "Email and Password Are Requried"]);
+    }
+
+    $email = trim( $data['email']);
+    $password = trim($data['password']);
+    if(!filter_var($email,FILTER_VALIDATE_EMAIL)){
+        echo json_encode(["success" => false,"message" => "Invalid email format"]);
+        exit;
+    }
+
+    $userExist = $conn->prepare("SELECT * FROM users  WHERE UserName = ? AND Password = ?");
+    $userExist -> bind_param("ss" , $email , $password);
+    $userExist -> execute();
+    $result =  $userExist -> get_result();
+
+  if($result -> num_rows > 0 ){
+    $user = $result -> fetch_assoc();
+    echo json_encode(["success" => true , "message" => "Login Successfully" , "user" => ["email" => $user["UserName"]]]);
+  }else{
+    echo json_encode(["success" => false , "message" => "Worng Email or Password"]);
+  }
+   
+    
+}
+else{
+        echo json_encode(["success" => false, "message" => "Invalid action. Use 'signUp' or 'login'"]);
 }
 
 // Close connection
