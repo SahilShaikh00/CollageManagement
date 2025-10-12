@@ -17,7 +17,8 @@
     }
 
     body {
-      background: linear-gradient(135deg, var(--dark), var(--primary), var(--secondary));
+      
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
       display: flex;
       justify-content: center;
       align-items: center;
@@ -44,6 +45,71 @@
       max-width: 1200px;
       perspective: 1000px;
     }
+  .message-box {
+  display: none; /* hidden by default */
+  padding: 15px 25px;
+  margin: 10px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: white;
+  position: fixed;
+  top: 20px;
+  right: -400px; /* start off-screen */
+  z-index: 1000;
+  min-width: 220px;
+  max-width: 350px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  backdrop-filter: blur(5px);
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+/* Success and Error colors */
+.message-box.success {
+  background: linear-gradient(135deg, #28a745, #71e27d);
+}
+
+.message-box.error {
+  background: linear-gradient(135deg, #b21f1f, #e74c3c);
+}
+
+/* Slide in animation */
+@keyframes slideInRight {
+  0% {
+    right: -400px;
+    opacity: 0;
+  }
+  100% {
+    right: 20px;
+    opacity: 1;
+  }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    right: 20px;
+  }
+  100% {
+    opacity: 0;
+    right: -400px;
+  }
+}
+
+/* Add classes dynamically in JS */
+.message-box.show {
+  display: block;
+  animation: slideInRight 0.5s forwards;
+}
+
+.message-box.hide {
+  animation: fadeOut 0.5s forwards;
+}
+
+
 
     .box {
       display: flex;
@@ -268,14 +334,11 @@
     }
 
     button:hover {
-      background: linear-gradient(to right, #233780, #c72424);
+      /* background: linear-gradient(to right, #233780, #c72424); */
       box-shadow: 0 10px 25px rgba(178, 31, 31, 0.35);
       transform: translateY(-3px);
     }
 
-    button:hover::before {
-      left: 100%;
-    }
 
     .formSection {
       display: none;
@@ -294,92 +357,8 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
-    }
+    }   
 
-    .social-login {
-      margin-top: 35px;
-      text-align: center;
-      width: 100%;
-    }
-
-    .social-login p {
-      color: var(--gray);
-      margin-bottom: 20px;
-      position: relative;
-      font-size: 15px;
-    }
-
-    .social-login p::before,
-    .social-login p::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      width: 100px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, #ddd, transparent);
-    }
-
-    .social-login p::before {
-      left: 0;
-    }
-
-    .social-login p::after {
-      right: 0;
-    }
-
-    .social-icons {
-      display: flex;
-      justify-content: center;
-      gap: 18px;
-    }
-
-    .social-icons a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      color: white;
-      font-size: 20px;
-      transition: all 0.3s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .social-icons a:nth-child(1) {
-      background: linear-gradient(to bottom, #3b5998, #2d4373);
-    }
-
-    .social-icons a:nth-child(2) {
-      background: linear-gradient(to bottom, #1da1f2, #0d8bd9);
-    }
-
-    .social-icons a:nth-child(3) {
-      background: linear-gradient(to bottom, #db4a39, #c23321);
-    }
-
-    .social-icons a:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Floating particles background effect */
-    .particles {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1;
-    }
-
-    .particle {
-      position: absolute;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-      animation: float 15s infinite linear;
-    }
 
     @keyframes float {
       0% {
@@ -649,7 +628,7 @@
 .otp-container {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 25px;
+  margin-bottom: 25px;    
 }
 
 .otp-input {
