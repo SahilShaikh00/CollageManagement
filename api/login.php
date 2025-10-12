@@ -20,6 +20,15 @@ header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
 require_once("../Database/Connection.php");
+require_once("../vendor/autoload.php");
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$config = require __DIR__ . "/../Config/appsetting.php";
+$secretKey = $config['jwt_secret'];
+$algo = $config['jwt_algo'];
+$tokenExpiry = $config['jwt_exp'];
 
 // Get JSON input
 $json = file_get_contents("php://input");
@@ -45,11 +54,15 @@ if($action === "signUp"){
     }
     
     $email = trim($data['email']);
-    $password = trim($data['password']);
+    $password = trim($data['password']);    
+    $role = isset($input['role']) ? trim($input['role']) : 'student';
 
     if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
         echo json_encode(["success" => false, "message" => "Invalid email format"]);
         exit;
+    }
+     if ($role !== 'student') {
+        $role = 'student';
     }
     
     // Check if user already exists
@@ -65,11 +78,31 @@ if($action === "signUp"){
 
     // Hash the passwaord for security
     
-    $newUser = $conn->prepare("INSERT INTO users (UserName, Password) VALUES (?, ?)");
-    $newUser->bind_param("ss", $email, $password);
+    $newUser = $conn->prepare("INSERT INTO users (UserName, Password,role) VALUES (?, ?,?)");
+    $newUser->bind_param("sss", $email, $password ,$role);
     
     if($newUser->execute()){
-        echo json_encode(["success" => true, "message" => "User signup successful"]);
+        $userId = $conn->insert_id; 
+        $issuedAt = time();
+        $expire = $issuedAt + 3600;
+         $payload = [
+        'exp' => $expire,
+        'sub' => $userId,
+        'email' => $email,
+        'role' => $role 
+    ];
+    
+    $jwt = JWT::encode($payload, $secretKey, $algo);
+     echo json_encode([
+        "success" => true,
+        "message" => "Login successful",
+        "token" => $jwt,
+        "user" => [
+            "id" => $payload['sub'],
+            "email" => $payload['email'],
+            "role" => $payload['role']
+        ]
+    ]);
     } else {
         echo json_encode(["success" => false, "message" => "Signup failed: " . $conn->error]);
     }
@@ -94,7 +127,27 @@ if($action === "signUp"){
 
   if($result -> num_rows > 0 ){
     $user = $result -> fetch_assoc();
-    echo json_encode(["success" => true , "message" => "Login Successfully" , "user" => ["email" => $user["UserName"]]]);
+     $issuedAt = time();
+     $expire = $issuedAt + 3600;
+    $payload = [
+        'iat' => $issuedAt,
+        'exp' => $expire,
+        'sub' => $user['UserID'],
+        'email' => $user['UserName'],
+        'role' => $user['role']
+    ];
+    
+    $jwt = JWT::encode($payload, $secretKey, $algo);
+     echo json_encode([
+        "success" => true,
+        "message" => "Login successful",
+        "token" => $jwt,
+        "user" => [
+            "id" => $payload['sub'],
+            "email" => $payload['email'],
+            "role" => $payload['role']
+        ]
+    ]);
   }else{
     echo json_encode(["success" => false , "message" => "Worng Email or Password"]);
   }
