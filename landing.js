@@ -59,3 +59,30 @@
       el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
       observer.observe(el);
     });
+
+    // Redirect to login page for nav login button
+    const navLoginBtn = document.querySelector('.login-btn');
+    if (navLoginBtn) {
+      navLoginBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'Public/Auth/Html/Login.php';
+      });
+    }
+
+    // Redirect to login page for "Login Now" button
+    const loginNowBtn = document.querySelector('.btn.btn-outline');
+    if (loginNowBtn) {
+      loginNowBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'Public/Auth/Html/Login.php';
+      });
+    }
+
+    // Redirect to login page for "Get Started Today" button
+    const getStartedBtn = document.querySelector('.cta .btn');
+    if (getStartedBtn) {
+      getStartedBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = 'Public/Auth/Html/Login.php';
+      });
+    }

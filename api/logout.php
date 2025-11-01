@@ -2,7 +2,7 @@
 // Set CORS headers
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, X-Requested-With");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Content-Type: application/json; charset=UTF-8");
 
 // Handle preflight requests
@@ -14,21 +14,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 // Start session
 session_start();
 
-// Check if user is logged in via session
-if (!isset($_SESSION['user'])) {
-    http_response_code(401);
-    echo json_encode([
-        "success" => false,
-        "message" => "User not authenticated"
-    ]);
-    exit;
-}
+// Destroy the session
+session_destroy();
 
-$auth_user = $_SESSION['user'];
+// Clear session cookie
+if (ini_get("session.use_cookies")) {
+    $params = session_get_cookie_params();
+    setcookie(session_name(), '', time() - 42000,
+        $params["path"], $params["domain"],
+        $params["secure"], $params["httponly"]
+    );
+}
 
 http_response_code(200);
 echo json_encode([
     "success" => true,
-    "message" => "Session is valid",
-    "user" => $auth_user
+    "message" => "Logged out successfully"
 ]);
+?>

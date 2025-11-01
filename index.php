@@ -6,7 +6,7 @@
   <title>College Management System</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="../Bolg/landing.css">
+  <link rel="stylesheet" href="./landing.css">
  
 </head>
 
@@ -35,7 +35,7 @@
   <!-- Hero -->
   <section id="home" class="hero">
     <div class="hero-text">
-      <h2>Smart College Management System</h2>
+      <h2>Smart EDU Management System</h2>
       <p>Manage students, faculty, attendance, and results — all in one secure and easy-to-use platform designed for modern educational institutions.</p>
       <div class="hero-buttons">
         <a href="#features" class="btn">Explore Features <i class="fas fa-arrow-down"></i></a>
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="hero-image">
-      <img src="../Asset/AllanaInstitute.jpeg" alt="College Illustration">
+      <img src="/Asset/smartEdu.png" alt="College Illustration">
     </div>
   </section>
 
@@ -91,7 +91,7 @@
       <p> we've designed a system that adapts to your institution's unique needs while providing an intuitive user experience for administrators, teachers, and students alike.</p>
     </div>
     <div class="about-image">
-      <img src="../Asset/smartEdu.png" alt="About Image">
+      <img src="/Asset/smartEdu.png" alt="About Image">
     </div>
   </section>
 
@@ -156,6 +156,6 @@
       © 2025 EduPortal. All Rights Reserved.
     </div>
   </footer>
-<script src="../Bolg/landing.js"></script>
+<script src="./landing.js"></script>
 </body>
 </html>

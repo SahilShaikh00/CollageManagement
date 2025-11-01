@@ -4,31 +4,53 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+// Safe header helpers for environments where header() or http_response_code() may be unavailable
+function safe_header($string) {
+    if (function_exists('header')) {
+        header($string);
+    }
+}
+
+
+function safe_http_response_code($code) {
+    if (function_exists('http_response_code')) {
+        http_response_code($code);
+    } else {
+        // Fallback to sending a status header if possible
+        if (function_exists('header')) {
+            $status_texts = [
+                200 => 'OK',
+                400 => 'Bad Request',
+                401 => 'Unauthorized',
+                403 => 'Forbidden',
+                404 => 'Not Found',
+                500 => 'Internal Server Error',
+            ];
+            $text = isset($status_texts[$code]) ? $status_texts[$code] : '';
+            header(sprintf('HTTP/1.1 %d %s', $code, $text));
+        }
+    }
+}
+
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-    header("Access-Control-Allow-Origin: *");
-    header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-    header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
-    http_response_code(200);
+    safe_header("Access-Control-Allow-Origin: *");
+    safe_header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+    safe_header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+    safe_http_response_code(200);
     exit;
 }
 
 // Set headers for actual requests
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Methods: POST, OPTIONS");
-header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+safe_header("Content-Type: application/json; charset=UTF-8");
+safe_header("Access-Control-Allow-Origin: *");
+safe_header("Access-Control-Allow-Methods: POST, OPTIONS");
+safe_header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 
 require_once("../Database/Connection.php");
-require_once("../vendor/autoload.php");
 
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
-$config = require __DIR__ . "/../Config/appsetting.php";
-$secretKey = $config['jwt_secret'];
-$algo = $config['jwt_algo'];
-$tokenExpiry = $config['jwt_exp'];
+// Start session for authentication
+session_start();
 
 // Get JSON input
 $json = file_get_contents("php://input");
@@ -82,27 +104,17 @@ if($action === "signUp"){
     $newUser->bind_param("sss", $email, $password ,$role);
     
     if($newUser->execute()){
-        $userId = $conn->insert_id; 
-        $issuedAt = time();
-        $expire = $issuedAt + 3600;
-         $payload = [
-        'exp' => $expire,
-        'sub' => $userId,
-        'email' => $email,
-        'role' => $role 
-    ];
-    
-    $jwt = JWT::encode($payload, $secretKey, $algo);
-     echo json_encode([
-        "success" => true,
-        "message" => "Login successful",
-        "token" => $jwt,
-        "user" => [
-            "id" => $payload['sub'],
-            "email" => $payload['email'],
-            "role" => $payload['role']
-        ]
-    ]);
+        $userId = $conn->insert_id;
+        // Store user data in session
+        $_SESSION['user'] = [
+            'id' => $userId,
+            'email' => $email,
+            'role' => $role
+        ];
+        echo json_encode([
+            "success" => true,
+            "message" => "Signup successful"
+        ]);
     } else {
         echo json_encode(["success" => false, "message" => "Signup failed: " . $conn->error]);
     }
@@ -120,34 +132,45 @@ if($action === "signUp"){
         exit;
     }
 
-    $userExist = $conn->prepare("SELECT * FROM users  WHERE UserName = ? AND Password = ?");
+    $userExist = $conn->prepare("SELECT u.UserID, u.UserName, u.role, s.status
+                             FROM users u
+                             LEFT JOIN student_profiles s ON u.UserID = s.user_id
+                             WHERE u.UserName = ? AND u.Password = ? ");
     $userExist -> bind_param("ss" , $email , $password);
     $userExist -> execute();
     $result =  $userExist -> get_result();
 
   if($result -> num_rows > 0 ){
     $user = $result -> fetch_assoc();
-     $issuedAt = time();
-     $expire = $issuedAt + 3600;
-    $payload = [
-        'iat' => $issuedAt,
-        'exp' => $expire,
-        'sub' => $user['UserID'],
+
+    if($user['role'] === 'student' && $user['status'] !== 'approved'){
+        echo json_encode([
+            "success" => false,
+            "status" => $user['status'],
+            "message" => "Your account is pending approval by admin/teacher."
+        ]);
+        $_SESSION['user'] = [
+        'id' => $user['UserID'],
+        'email' => $user['UserName'],
+        'role' => $user['role']
+        
+     ];
+   
+        exit;
+    }
+    // Store user data in session
+    $_SESSION['user'] = [
+        'id' => $user['UserID'],
         'email' => $user['UserName'],
         'role' => $user['role']
     ];
-    
-    $jwt = JWT::encode($payload, $secretKey, $algo);
-     echo json_encode([
+    echo json_encode([
         "success" => true,
         "message" => "Login successful",
-        "token" => $jwt,
-        "user" => [
-            "id" => $payload['sub'],
-            "email" => $payload['email'],
-            "role" => $payload['role']
-        ]
+         "role" => $user['role'],
+                
     ]);
+    
   }else{
     echo json_encode(["success" => false , "message" => "Worng Email or Password"]);
   }
