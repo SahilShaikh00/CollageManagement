@@ -72,7 +72,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     button.disabled = true;
 
     try {
-        const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/login.php', {
+        const response = await fetch('http://localhost/CollageManagement/api/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
 
         if (data.success) {
             showMessage(data.message, 'success');
-            window.location.href = "../../Admin/Html/index.html";
+            window.location.href = "../Html/student_onboarding.php";
         } else {
             showMessage(data.message, 'error');
         }
@@ -130,7 +130,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     button.disabled = true;
 
     try {
-        const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/login.php', {
+        const response = await fetch('http://localhost/CollageManagement/api/login.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,18 +144,23 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         });
 
         const data = await response.json();
-
-        if (data.success) {
-            localStorage.setItem('token', data.token);
-            localStorage.setItem('role', data.user.role);
-            localStorage.setItem('email', data.user.email);
-            showMessage('User Login SuccesFully ','success');     
-             setTimeout(() => {
-        window.location.href = '../../Admin/Html/index.html';
-    }, 500);
-        } else {
-            showMessage(data.message, 'error');
+        console.log("Login response data:", data);
+        if(data.status === "pending" || data.status === "rejected" || data.status === null){
+            window.location.href ='../Html/StudentAprovel.php';
+            return;           
         }
+       if (data.success && data.role !== 'student') {
+    showMessage('User Login Successfully', 'success');
+    setTimeout(() => {
+        window.location.href = '../../Admin/Html/index.php';
+    }, 500);
+
+} else if (data.success && data.role === 'student') {
+    showMessage('User Login Successfully', 'success');
+    setTimeout(() => {
+        window.location.href = '../../Student/Html/index.php';
+    }, 500);
+}
 
     } catch (error) {
         console.error("Full error details:", error);
@@ -333,7 +338,7 @@ function initForgotPassword() {
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/forgetpassword.php', {
+                const response = await fetch('http://localhost/CollageManagement/api/forgetpassword.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'sendotp', email: userEmail })
@@ -374,7 +379,7 @@ function initForgotPassword() {
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/forgetpassword.php', {
+                const response = await fetch('http://localhost/CollageManagement/api/forgetpassword.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'verify', email: email, otp: otp })
@@ -420,7 +425,7 @@ function initForgotPassword() {
             submitBtn.disabled = true;
 
             try {
-                const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/forgetpassword.php', {
+                const response = await fetch('http://localhost/CollageManagement/api/forgetpassword.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'resetPassword', email: email, password: password })
@@ -458,7 +463,7 @@ function initForgotPassword() {
             resendBtn.disabled = true;
 
             try {
-                const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/forgetpassword.php', {
+                const response = await fetch('http://localhost/CollageManagement/api/forgetpassword.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ action: 'sendotp', email: email })

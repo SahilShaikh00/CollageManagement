@@ -3,48 +3,29 @@
         const slideMenu = document.getElementById('slideMenu');
         const overlay = document.getElementById('overlay');
         
-        // Get token and ensure it's valid
-        let token = localStorage.getItem('token');
-        
-        // Debug token retrieval
-        console.log('Token from localStorage:', token ? token.substring(0, 20) + '...' : 'NULL');
-        
-        if(!token || token === 'null' || token === 'undefined' || token === '') {
-            alert('Please Login First');
-            window.location.href ='../../Bolg/landing.html';
-            return;
-        }
-
+        // Check session by calling verify_token.php (session cookies will be sent automatically)
         try {
-            // Clean the token (remove quotes if any)
-            token = token.replace(/^"(.*)"$/, '$1').trim();
-            
-            console.log('Sending request to verify token...');
-            
+            console.log('Sending request to verify session...');
+
             const response = await fetch('http://localhost/COLLAGEMANAGEMENT/Config/verify_token.php', {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
-                }
+                },
+                credentials: 'include' // Include session cookies
             });
 
             console.log('Response status:', response.status);
-            
+
             const data = await response.json();
             console.log('Full response data:', data);
-            
+
             if(!response.ok || data.success === false) {
-                throw new Error(data.message || 'Token verification failed');
+                throw new Error(data.message || 'Session verification failed');
             }
-            
-            // Token is valid - store user info
-            if(data.user) {
-                localStorage.setItem('user_id', data.user.id);
-                localStorage.setItem('user_email', data.user.email);
-                localStorage.setItem('role', data.user.role);
-            }
+
+            // Session is valid - user info is in data.user
             
             // Continue with role-based logic
             const role = data.user.role;
@@ -57,14 +38,7 @@
             }
 
             // Role-based menu items visibility
-            if (role === 'student') {
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    const text = item.querySelector('.menu-text').textContent.toLowerCase();
-                    if (['students','faculty','courses','schedule','attendance','grades','reports'].includes(text)) {
-                        item.style.display = 'none';
-                    }
-                });
-            } else if (role === 'teacher') {
+           if (role === 'teacher') {
                 document.querySelectorAll('.menu-item').forEach(item => {
                     const text = item.querySelector('.menu-text').textContent.toLowerCase();
                     if (['settings','help'].includes(text)) {
@@ -105,7 +79,10 @@
         // Close menu when clicking a menu item (mobile)
         document.querySelectorAll('.menu-item').forEach(item => {
             item.addEventListener('click', function(e) {
-                e.preventDefault();
+                const href = this.getAttribute('href');
+                if (href === '#') {
+                    e.preventDefault();
+                }
                 document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
                 this.classList.add('active');
 
@@ -130,10 +107,32 @@
 
 
     const logout = document.querySelector("#Logoutbtn");
-    logout.addEventListener("click", () => {
-        localStorage.clear();
-        alert("Logout Successful");   
-        window.location.href = '../../Bolg/landing.html';
+    logout.addEventListener("click", async () => {
+        try {
+            const response = await fetch('http://localhost/COLLAGEMANAGEMENT/api/logout.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                credentials: 'include' // Include session cookies
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                localStorage.clear(); // Clear any remaining localStorage
+                alert("Logout Successful");
+                window.location.href = '../../Bolg/landing.html';
+            } else {
+                alert("Logout failed");
+            }
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Fallback: clear localStorage and redirect anyway
+            localStorage.clear();
+            alert("Logout Successful");
+            window.location.href = '../../Bolg/landing.html';
+        }
     });
 
 
